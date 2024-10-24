@@ -5,7 +5,8 @@ using UnityEngine;
 public class NewBehaviourScript : MonoBehaviour
 {
     // Start is called before the first frame update
-    public float rotationSpeed = 90f;
+    [SerializeField] public float rotationSpeed = 90f;
+    int count = 0;
     void Start()
     {
         
@@ -22,7 +23,9 @@ public class NewBehaviourScript : MonoBehaviour
 
     private IEnumerator RotateMap()
     {
-        int count = 1;
+        Quaternion originalRotation = transform.rotation;
+
+        
         float targetAngle = 90f; // 目标旋转角度
         float totalRotation = 0f; // 当前旋转角度
         float duration = targetAngle / rotationSpeed; // 计算持续时间
@@ -38,10 +41,12 @@ public class NewBehaviourScript : MonoBehaviour
             if (totalRotation >= targetAngle)
             {
                 count++;
+                Debug.Log("count:" + (count%6+1));//关卡数
                 break;
+                
             }
             yield return null;
         }
-            transform.rotation= Quaternion.Euler( 120,0, 0);
+            transform.rotation= originalRotation*Quaternion.Euler(-90, 0,0);
     }
 }
